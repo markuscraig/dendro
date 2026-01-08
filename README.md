@@ -25,10 +25,29 @@ brew install boost cmake c-blosc openvdb tbb zlib
 Run the following from the DendroAPI directory to compile using `cmake`:
 
 ```
+cd DendroAPI
 mkdir build
 cd build
 cmake ..
 make
+```
+
+Verify the `libDendroAPI.dylib` library:
+```
+$ ls -l libDendroAPI.dylib
+-rwxr-xr-x  1 mark  staff  16573824 Jan  5 07:10 libDendroAPI.dylib
+```
+
+Verify the `libDendroAPI.dylib` dependencies:
+```
+$ otool -L ./libDendroAPI.dylib
+./libDendroAPI.dylib:
+	@rpath/libDendroAPI.dylib (compatibility version 0.0.0, current version 0.0.0)
+	/opt/homebrew/opt/openvdb/lib/libopenvdb.13.0.dylib (compatibility version 13.0.0, current version 13.0.0)
+	/opt/homebrew/opt/tbb/lib/libtbb.12.dylib (compatibility version 12.0.0, current version 12.17.0)
+	/opt/homebrew/opt/c-blosc/lib/libblosc.1.dylib (compatibility version 1.0.0, current version 1.21.6)
+	/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 1900.180.0)
+	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)
 ```
 
 ### DendroGH (C#)
@@ -38,8 +57,26 @@ It is targeted for Rhino 8 by default.
 
 ##### DendroGH (C#) on MacOS
 
-* Install .Net Core (currently v8, v6+ is required for Apple Silicon) via brew: `brew install dotnet`
-* Compile with `dotnet build DendroGH.Mac.csproj`
+Install .Net Core (currently v9, v6+ is required for Apple Silicon) via brew:
+
+```
+$ brew install dotnet
+$ dotnet --version
+9.0.205
+```
+
+Compile the Dendro Grasshopper dll library:
+
+```
+cd DendroGH
+dotnet build -c Release DendroGH.Mac.csproj
+```
+
+Verify the dll:
+```
+$ ls -l ./obj/Release/net7.0/DendroGH.dll
+-rw-r--r--  1 mark  staff  107520 Jan  5 07:41 ./obj/Release/net7.0/DendroGH.dll
+```
 
 ## Building
 
